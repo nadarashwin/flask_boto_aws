@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	</head>
+
+	<body>
+		<h1> The groups present on the AWS account are </h1>
+	<table border="1">
+	<tr>
+	<th> Groups </th></tr>
+		{% for i in range(0,(num['list_groups_response']['list_groups_result']['groups'])| length) %}
+<tr>			<td>    {{ num['list_groups_response']['list_groups_result']['groups'][i]['group_name'] }} </td>
+		{% endfor %}
+	</tr>
+	</body>
+</html>
