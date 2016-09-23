@@ -25,7 +25,16 @@ def send():
 def get_all_users():
 	if request.method == "GET":
 		d = conn.get_all_users()
-        	return render_template("mand.html", nums=d)
+		a = []
+		f = {}
+		for i in range(0, len(d['list_users_response']['list_users_result']['users'])):
+			a.append(d['list_users_response']['list_users_result']['users'][i]['user_name'])
+		for i in range(0,len(a)):
+			f[a[i]] = []
+		for i in a:
+			for j in range(0,len((conn.get_groups_for_user(i)['list_groups_for_user_response']['list_groups_for_user_result']['groups']))):
+				f[i].append(conn.get_groups_for_user(i)['list_groups_for_user_response']['list_groups_for_user_result']['groups'][j]['group_name'])
+        	return render_template("mand.html", nums=f)
 
 
 @app.route('/get_all_groups', methods=['GET', 'POST'])

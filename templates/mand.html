@@ -9,10 +9,16 @@
 		<h1> The users present on the AWS account are </h1>
 	<table border="1">
 	<tr>
-	<th> Names </th></tr>
-		{% for i in range(0,(nums['list_users_response']['list_users_result']['users'])| length) %}
-<tr>			<td>    {{ nums['list_users_response']['list_users_result']['users'][i]['user_name'] }} </td>
-		{% endfor %}
+	<th> Names </th>
+	<th> Groups </th>
+		{% for key, value in nums.iteritems() %}
+<tr>                    <td>    {{ key }}	</td>
+			{% for x in value %}
+                    <td>   {{ x }} </td>
+			{% endfor %}
+		{% endfor %} </tr>
+
+
 	</tr>
 	</body>
 </html>
