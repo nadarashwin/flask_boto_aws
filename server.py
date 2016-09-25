@@ -3,6 +3,7 @@
 from flask import Flask, redirect, url_for, render_template,request
 import key
 import boto
+from boto.exception import BotoServerError
 
 app = Flask(__name__)
 
@@ -16,9 +17,20 @@ def hello_world():
 @app.route('/send', methods=['GET', 'POST'])
 def send():
 	if request.method == "POST":
-		age=request.form['age']
-		return render_template('age.html', age=age)
-	return render_template('index.html')
+		user=request.form['create_user']
+		passw=request.form['password']
+		try:
+			b = conn.create_user(user)
+			b = "username with " + str(user) + "has been created"
+			try:
+				c = conn.create_login_profile(user,passw)
+				c = "password for " + str(user) + "has been created"
+			except BotoServerError, f:
+				c = f.message
+		except BotoServerError, e:
+			b = e.message
+		return render_template('age.html', _user=b, _pass=c)
+#	return render_template('index.html')
 
 
 @app.route('/get_all_users', methods=['GET', 'POST'])
@@ -44,5 +56,5 @@ def get_all_groups():
         	return render_template("mand1.html", num=d)
 
 if __name__ == "__main__":
-        app.run(debug=True)
+        app.run(debug=True, threaded=True)
 
